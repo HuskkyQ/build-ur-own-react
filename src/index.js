@@ -3,10 +3,10 @@
 // import App from './App';
 
 
-// ①
+// ① 先使用jsx
 // const element = <h1 title="foo">Hello</h1>
 
-// ②
+// ② 使用React.createElement来创建element
 // const element = React.createElement(
 //   'h1',
 //   { title: 'foo'},
@@ -15,7 +15,7 @@
 // const container = document.getElementById("root");
 // ReactDOM.render(element, container)
 
-// ③
+// ③ 使用脱离react的方式
 const element = {
   type: 'h1',
   props: {
