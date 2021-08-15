@@ -1,17 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+// import App from './App';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// ①
+// const element = <h1 title="foo">Hello</h1>
+
+// ②
+// const element = React.createElement(
+//   'h1',
+//   { title: 'foo'},
+//   'Hello1'
+// )
+// const container = document.getElementById("root");
+// ReactDOM.render(element, container)
+
+// ③
+const element = {
+  type: 'h1',
+  props: {
+    title: 'foo',
+    children: 'Hello'
+  },
+}
+const container = document.getElementById("root");
+const node = document.createElement(element.type);
+node['title'] = element.props.title;
+const text = document.createTextNode('');
+text['nodeValue'] = element.props.children;
+
+node.appendChild(text);
+container.appendChild(node);
