@@ -61,40 +61,20 @@ function createDom(fiber) {
     // container.appendChild(dom);
 }
 
-function commitRoot() {
-    commitWork(wipRoot.child)
-    currentRoot = wipRoot
-    wipRoot = null
-}
-
-function commitWork(fiber) {
-    if(!fiber) {
-        return
-    }
-    const domParent = fiber.parent.dom;
-    domParent.appendChild(fiber.dom);
-    commitWork(fiber.children);
-    commitWork(fiber.sibling);
-}
-
 // In the render function we set nextUnitOfWork
 // to the root of the fiber tree.
 function render(element, container) {
     // TODO set next unit of work
-    wipRoot = {
+    nextUnitOfWork = {
         dom: container,
         props: {
             children: [element]
         },
-        alternate: cuurntRoot
     }
-    nextUnitOfWork = wipRoot;
 }
 
 
 let nextUnitOfWork = null;
-let currentRoot = null;
-let wipRoot = null;
 
 function workLoop(deadline) {
     let shouldYield = false;
@@ -113,22 +93,12 @@ function performUnitOfWork(fiber) {
     if (!fiber.dom) {
         fiber.dom = createDom(fiber);
     }
-    const elements = fiber.props.children;
-    reconcileChildren(fiber, elements);
-    
-    if (fiber.child) {
-        return fiber.child;
+    if (fiber.parent) {
+        fiber.parent.dom.appendChild(fiber.dom);
     }
-    let nextFiber = fiber;
-    while (nextFiber) {
-        if (nextFiber.sibling) {
-            return nextFiber.sibling;
-        }
-        nextFiber = nextFiber.parent;
-    }
-}
 
-function reconcileChildren(wipFiber, elements) {
+    // TODO create new fibers
+    const elements = fiber.props.children;
     let index = 0;
     let prevSibling = null;
     while (index < elements.length) {
@@ -147,6 +117,18 @@ function reconcileChildren(wipFiber, elements) {
 
         prevSibling = newFiber;
         index++
+    }
+
+    // TODO return next unit of work
+    if (fiber.child) {
+        return fiber.child;
+    }
+    let nextFiber = fiber;
+    while (nextFiber) {
+        if (nextFiber.sibling) {
+            return nextFiber.sibling;
+        }
+        nextFiber = nextFiber.parent;
     }
 }
 
