@@ -250,7 +250,8 @@ function reconcileChildren(wipFiber, elements) {
     }
 }
 
-
+// 不加下面这行会报错
+/** @jsxRuntime classic */
 /** @jsx Didact.createElement */
 const Didact = {
     createElement,

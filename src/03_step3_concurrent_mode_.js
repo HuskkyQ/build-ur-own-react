@@ -86,6 +86,8 @@ const Didact = {
     render
 }
 
+// 不加下面这行会报错
+/** @jsxRuntime classic */
 /** @jsx Didact.createElement */
 const element = (
     <div style="background: salmon">

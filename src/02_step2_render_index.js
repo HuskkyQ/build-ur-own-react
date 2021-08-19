@@ -20,11 +20,11 @@ function createElement(type, props, ...children) {
         type,
         props: {
             ...props,
-            children: children.map(child => {
+            children: children.map(child => 
                 typeof child === 'object'
                     ? child
                     : createTextElement(child)
-            })
+            )
         }
     }
 }
@@ -65,6 +65,8 @@ function render(element, container) {
 // when babel transpiles the JSX it will use the function we define.
 // 如果我们有这样的注释，当 babel 转译 JSX 时，它会使用我们定义的函数。
 
+// 不加下面这行会报错
+/** @jsxRuntime classic */
 const Didact = {
     createElement,
     render
